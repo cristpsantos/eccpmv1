@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.pontescr.eccpmv1.dto.TeamDTO;
 import com.pontescr.eccpmv1.entities.Team;
+import com.pontescr.eccpmv1.repositories.ServantsRepository;
 import com.pontescr.eccpmv1.repositories.TeamRepository;
 
 @Service
@@ -17,8 +18,12 @@ public class TeamService {
 	@Autowired
 	private TeamRepository repository;
 	
+	@Autowired
+	private ServantsRepository repositoryServants;
+	
 	@Transactional(readOnly = true)
 	public List<TeamDTO> findAll() {
+		repositoryServants.findAll();
 		List<Team> list = repository.findAll();
 		return list.stream().map(x -> new TeamDTO(x)).collect(Collectors.toList());
 	}
